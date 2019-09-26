@@ -21,6 +21,7 @@ class App {
         helpers: handlebarsHelpers
     }));
     this.express.set('view engine', 'handlebars');
+    this.express.use(bodyParser.urlencoded({ extended: true }));
     this.express.use(bodyParser.json());
   }
 
