@@ -1,0 +1,37 @@
+<div id="mySidenav" class="sidenav">
+  {{#if (or
+    (eq action "home")
+    (isFalsey action)
+  )}}
+    <span id="currentNav">Home</span>
+  {{else if (eq action "schedule")}}
+    <span id="currentNav">Agendar Consulta</span>
+  {{else}}
+    <span id="currentNav">Listar Consultas</span>
+  {{/if}}
+
+  {{#if (or
+    (eq action "home")
+    (eq action null)
+  )}}
+    <a href="/" class="_disabled">Home</a>
+  {{else}}
+    <a href="/">Home</a>
+  {{/if}}
+
+  {{#if (eq action "schedule")}}
+    <a href="/schedule" class="_disabled">Agendar Consulta</a>
+  {{else}}
+    <a href="/schedule">Agendar Consulta</a>
+  {{/if}}
+
+  {{#if (eq action "list")}}
+    <a href="/list" class="_disabled">Listar Consultas</a>
+  {{else}}
+    <a href="/list">Listar Consultas</a>
+  {{/if}}
+</div>
+<div id ="title">
+    <span id="navButton" onclick="toggleNav()">&#9776; Menu</span>
+    <span id="companyName">Clínica Médica</span>
+</div>

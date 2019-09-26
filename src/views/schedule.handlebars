@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="../js/navigation.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/schedule.css">
+    <title>Clinica Médica</title>
+  </head>
+  <body>
+    {{>navigation this}}
+    <div id="main">
+      {{#if (eq action "schedule_success")}}
+        <div class="alert alert-success alert-dismissible">
+          <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>Sucesso</strong> Sua consulta foi agendada!
+        </div>
+      {{else if (eq action "schedule_failed")}}
+        <div class="alert alert-danger alert-dismissible">
+          <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>Erro</strong> Houve uma falha no agendamento da consulta!
+        </div>
+      {{else if (isFalsey especialidade)}}
+        <form method="POST" class="formulario" id="schedule_form">
+          <input type="hidden" id="action" name="action" value="{{action}}"/>
+          <ul>
+            <li>
+              <label for="especialidade">Especialidade</label>
+              <select name="especialidade" id="especialidade" required>
+                {{#isTruthy especialidades}}
+                  {{#each especialidades}}
+                    <option value="{{.}}">{{.}}</option>
+                  {{/each}}
+                {{/isTruthy}}
+              </select>
+              <span>Selecione a especialidade da consulta</span>
+            </li>
+            <li>
+              <input type="submit" value="Enviar"/>
+            </li>
+          </ul>
+        </form>
+      {{else if (isFalsey paciente)}}
+        <form method="POST" class="formulario">
+          <input type="hidden" id="action" name="action" value="{{action}}"/>
+          <input type="hidden" id="especialidade" name="especialidade" value="{{especialidade}}"/>
+          <ul>
+            <li>
+              <label for="medico">Medico</label>
+              <select name="medico"id="medico" required>
+                {{#isTruthy medicos}}
+                  {{#each medicos}}
+                    <option value="{{.}}">{{.}}</option>
+                  {{/each}}
+                {{/isTruthy}}
+              </select>
+              <span>Selecione o nome do Médico</span>
+            </li>
+            <li>
+              <label for="paciente">Paciente</label>
+              <input type="text" name="paciente" id="paciente" required/>
+              <span>Informe o nome do paciente</span>
+            </li>
+            <li>
+              <label for="data_consulta">Horário</label>
+              <input type="datetime-local" name="data_consulta" id="data_consulta" required/>
+              <span>Informe a data e a hora da consulta</span>
+            </li>
+            <li>
+              <label for="convenio">Convenio</label>
+              <input type="text" name="convenio" id="convenio" required/>
+              <span>Informe o convenio</span>
+            </li>
+            <li>
+              <input type="submit" value="Enviar"/>
+            </li>
+          </ul>
+        </form>
+      {{else}}
+        Voce nao devia estar nessa pagina!
+      {{/if}}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="../js/navigation.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/list.css">
+    <title>Clinica Médica</title>
+  </head>
+  <body>
+    {{>navigation this}}
+    <div id="main">
+      {{#isEmpty agendamentos}}
+        <div id="emptyListAlert" class="alert alert-warning alert-dismissible">
+          <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>Aviso</strong> Nenhuma consulta ainda foi marcada. <a href="/schedule" class="alert-link">Marque aqui a sua consulta</a>
+        </div>
+      {{else}}
+        <table>
+          <thead>
+            <tr>
+              <td>Médico</td>
+              <td>Especialidade</td>
+              <td>Paciente</td>
+              <td>Data</td>
+              <td>Convênio</td>
+            </tr>
+          </thead>
+          <tbody>
+            {{#forEach agendamentos}}
+              <tr>
+                <td>{{medico}}</td>
+                <td>{{especialidade}}</td>
+                <td>{{paciente}}</td>
+                <td>{{data}}</td>
+                <td>{{convenio}}</td>
+              </tr>
+            {{/forEach}}
+          </tbody>
+        </table>
+      {{/isEmpty}}
+    </div>
+  </body>
+</html>
