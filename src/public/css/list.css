@@ -1,0 +1,34 @@
+@import './navigation.css';
+
+table, td, th {
+  border: 1px solid #ddd;
+  text-align: left;
+  margin-top: 15px;
+  cursor: default;
+}
+
+table {
+  overflow: hidden;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  position: relative;
+  padding: 15px;
+}
+
+thead > tr > td:hover::after {
+  content: "";
+  position: absolute;
+  background-color: #edeff2;
+  left: 0;
+  top: -5000px;
+  height: 10000px;
+  width: 100%;
+  z-index: -1;
+}
+
+tbody > tr:hover {
+  background-color: #edeff2;
+}

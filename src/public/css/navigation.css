@@ -1,0 +1,76 @@
+body {
+  font-family: "Lato", sans-serif;
+  transition: background-color .5s;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+#_disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+#navButton {
+  font-size:30px;
+  cursor:pointer;
+}
+
+#currentNav {
+  margin-top: -45px;
+  padding-left: 10px;
+  color: white;
+  font-size: 25px;
+  position: absolute;
+  left: 0%;
+  flex: 0 1 auto;
+  transition: 0.3s;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+#title {
+  background-color: #111;
+  color: white;
+  transition: margin-left .5s;
+  padding: 16px;
+  margin: -8px;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+}
+
+#companyName {
+  font-size: 36px;
+  flex: 0 1 auto;
+  height: 100px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
