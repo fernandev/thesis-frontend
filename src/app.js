@@ -1,6 +1,7 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
 const handlebarsHelpers = require('handlebars-helpers')(['comparison', 'collection', 'array']);
+const bodyParser = require('body-parser');
 const path = require('path');
 
 class App {
@@ -20,6 +21,7 @@ class App {
         helpers: handlebarsHelpers
     }));
     this.express.set('view engine', 'handlebars');
+    this.express.use(bodyParser.json());
   }
 
   routes() {
