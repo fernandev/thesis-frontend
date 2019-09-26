@@ -10,7 +10,7 @@
   <body>
     {{>navigation this}}
     <div id="main">
-      {{#isEmpty appointments}}
+      {{#isEmpty agendamentos}}
         <div id="emptyListAlert" class="alert alert-warning alert-dismissible">
           <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
           <strong>Aviso</strong> Nenhuma consulta ainda foi marcada. <a href="/schedule" class="alert-link">Marque aqui a sua consulta</a>
@@ -27,13 +27,13 @@
             </tr>
           </thead>
           <tbody>
-            {{#forEach appointments}}
+            {{#forEach agendamentos}}
               <tr>
-                <td>{{doctor}}</td>
-                <td>{{specialty}}</td>
-                <td>{{patient}}</td>
-                <td>{{time}}</td>
-                <td>{{insurance}}</td>
+                <td>{{medico}}</td>
+                <td>{{especialidade}}</td>
+                <td>{{paciente}}</td>
+                <td>{{data}}</td>
+                <td>{{convenio}}</td>
               </tr>
             {{/forEach}}
           </tbody>
