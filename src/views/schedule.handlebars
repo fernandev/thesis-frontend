@@ -10,15 +10,25 @@
   <body>
     {{>navigation this}}
     <div id="main">
-      {{#if (isFalsey especialidade)}}
+      {{#if (eq action "schedule_success")}}
+        <div class="alert alert-success alert-dismissible">
+          <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>Sucesso</strong> Sua consulta foi agendada!
+        </div>
+      {{else if (eq action "schedule_failed")}}
+        <div class="alert alert-danger alert-dismissible">
+          <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>Erro</strong> Houve uma falha no agendamento da consulta!
+        </div>
+      {{else if (isFalsey especialidade)}}
         <form method="POST" class="formulario" id="schedule_form">
           <input type="hidden" id="action" name="action" value="{{action}}"/>
           <ul>
             <li>
               <label for="especialidade">Especialidade</label>
               <select name="especialidade" id="especialidade" required>
-                {{#isTruthy specialties}}
-                  {{#each specialties}}
+                {{#isTruthy especialidades}}
+                  {{#each especialidades}}
                     <option value="{{.}}">{{.}}</option>
                   {{/each}}
                 {{/isTruthy}}
@@ -38,10 +48,10 @@
             <li>
               <label for="medico">Medico</label>
               <select name="medico"id="medico" required>
-                {{#isTruthy doctors}}
-                  {{#each doctors}}
+                {{#isTruthy medicos}}
+                  {{#each medicos}}
                     <option value="{{.}}">{{.}}</option>
-                  {{/doctors}}
+                  {{/each}}
                 {{/isTruthy}}
               </select>
               <span>Selecione o nome do Médico</span>
@@ -66,16 +76,6 @@
             </li>
           </ul>
         </form>
-      {{else if (eq action "schedule_success")}}
-        <div class="alert alert-success alert-dismissible">
-          <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-          <strong>Sucesso</strong> Sua consulta foi agendada!
-        </div>
-      {{else if (eq action "schedule_fail")}}
-        <div class="alert alert-danger alert-dismissible">
-          <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-          <strong>Erro</strong> Houve uma falha no agendamento da consulta!
-        </div>
       {{else}}
         Voce nao devia estar nessa pagina!
       {{/if}}
