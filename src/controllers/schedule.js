@@ -1,31 +1,24 @@
 const url = require('url');
+const { connection } = require('./database');
 
 const renderAppointmentsForm = async (req, res) => {
   const { especialidade, medico, action = 'schedule' } = req.query;
 
   if (!especialidade) {
-    const especialidades = await new Promise(resolve => {
-      setTimeout(() => {
-        resolve(["Acupuntura","Angiologia","Cardiologia","Pediatra","Clínica Geral","Gastroentereologia","Dermatologia","Geriatria","Ginecologia","Obstetrícia","Nutricionista","Neurologista","Psiquiatra"]);
-      }, 0000);
-    });
-
-    return res.render('schedule', {
-      especialidades,
-      action
-    });
+    return fetchSpecialties().then(especialidades => (
+      res.render('schedule', {
+        especialidades,
+        action
+      })
+    ));
   } else if (!medico) {
-    const medicos = await new Promise(resolve => {
-      setTimeout(() => {
-        resolve(["Jose Camargo Lacerda", "Ana Tereza de A. Vasques"]);
-      }, 0000);
-    });
-
-    return res.render('schedule', {
-      especialidade,
-      medicos,
-      action
-    });
+    return fetchDoctorsBySpecialty(especialidade).then(medicos => (
+      res.render('schedule', {
+        especialidade,
+        medicos,
+        action
+      })
+    ));
   } else {
     return res.render('schedule', {
       action
@@ -33,26 +26,27 @@ const renderAppointmentsForm = async (req, res) => {
   }
 };
 
-const scheduleAppointment = async (req, res, next) => {
+const handleAppointmentSchedule = async (req, res, next) => {
   const { especialidade, medico, paciente, data_consulta, convenio } = req.body;
 
   if ([especialidade, medico, paciente, data_consulta, convenio].every(param => (param))) {
-    try {
-      return res.redirect(url.format({
-        pathname: '/schedule',
-        query: {
-          action: 'schedule_success'
-        }
-      }));
-    } catch(err) {
-      console.error(err);
-      return res.redirect(url.format({
-        pathname: '/schedule',
-        query: {
-          action: 'schedule_failed'
-        }
-      }));
-    }
+    return scheduleAppointment({ especialidade, medico, paciente, data_consulta, convenio })
+      .then(() => (
+        res.redirect(url.format({
+          pathname: '/schedule',
+          query: {
+            action: 'schedule_success'
+          }
+        }))
+      ))
+      .catch(() => (
+        res.redirect(url.format({
+          pathname: '/schedule',
+          query: {
+            action: 'schedule_failed'
+          }
+        }))
+      ));
   } else {
     return res.redirect(url.format({
       pathname: '/schedule',
@@ -68,7 +62,26 @@ const scheduleAppointment = async (req, res, next) => {
   }
 };
 
+const fetchSpecialties = async () => (
+  connection.query(`CALL list_especialidades`)
+    .then(([rows]) => (
+      rows.map(({ especialidade }) => (especialidade))
+    ))
+);
+
+const fetchDoctorsBySpecialty = async specialty => (
+  connection.query(`CALL list_medicos_from_especialidade(?)`, specialty)
+    .then(([rows]) => (
+      rows.map(({ nome }) => (nome))
+    ))
+);
+
+const scheduleAppointment = async ({ especialidade, medico, paciente, data_consulta, convenio }) => (
+  connection.query(`call create_consulta(?, ?, ?, ?, ?)`, [medico, especialidade, paciente, data_consulta, convenio])
+);
+
+
 module.exports = {
   renderAppointmentsForm,
-  scheduleAppointment
+  handleAppointmentSchedule
 };

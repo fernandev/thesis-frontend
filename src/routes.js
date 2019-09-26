@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const { renderAppointments } = require('./controllers/list');
-const { renderAppointmentsForm, scheduleAppointment } = require('./controllers/schedule')
+const { renderAppointmentsForm, handleAppointmentSchedule } = require('./controllers/schedule')
 
 router.get('/', (req, res) => { res.render('home'); });
 
@@ -9,6 +9,6 @@ router.get('/list', renderAppointments);
 
 router.route('/schedule')
   .get(renderAppointmentsForm)
-  .post(scheduleAppointment);
+  .post(handleAppointmentSchedule);
 
 module.exports = router;
